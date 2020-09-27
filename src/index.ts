@@ -1,24 +1,6 @@
-/*
- * Copyright 2019 Google LLC. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see the error "The Geolocation service
-// failed.", it means you probably did not give permission for the browser to
-// locate you.
+import * as data from './parks.json';
 let map: google.maps.Map, infoWindow: google.maps.InfoWindow;
+
 
 function initMap(): void {
   map = new google.maps.Map(document.getElementById("map") as HTMLElement, {
@@ -27,19 +9,20 @@ function initMap(): void {
   });
   infoWindow = new google.maps.InfoWindow();
 
+  var currPos;
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position: Position) => {
-        const pos = {
+         currPos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
 
-        infoWindow.setPosition(pos);
+        infoWindow.setPosition(currPos);
         infoWindow.setContent("Location found.");
         infoWindow.open(map);
-        map.setCenter(pos);
+        map.setCenter(currPos);
       },
       () => {
         handleLocationError(true, infoWindow, map.getCenter());
@@ -49,6 +32,10 @@ function initMap(): void {
     // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());
   }
+
+  
+  
+  
 }
 
 function handleLocationError(
@@ -64,6 +51,18 @@ function handleLocationError(
   );
   infoWindow.open(map);
 }
+
+function parseJson() {
+     let stringData = JSON.stringify(data);
+     let parks = JSON.parse(stringData);
+     console.log(parks);
+     return parks;
+}
+
+function sortDist(parkData: any, currPos: any) {
+    
+}
+
 export { initMap };
 
 import "./style.css"; // required for webpack
