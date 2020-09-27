@@ -33,7 +33,7 @@ function initMap(): void {
     handleLocationError(false, infoWindow, map.getCenter());
   }
 
-  
+  parseJson();
   
   
 }
@@ -60,7 +60,7 @@ function parseJson() {
 }
 
 function sortDist(parkData: any, currPos: any) {
-    
+
 }
 
 export { initMap };
